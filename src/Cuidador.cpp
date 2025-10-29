@@ -8,7 +8,7 @@
 // Inicialización del contador estático
 int Cuidador::contadorInstancias = 0;
 
-// CORREGIDO: Constructor de 3 argumentos
+// Aca corregi el constructor  me faltaba un argumento 
 Cuidador::Cuidador(int i, std::string n, int c_max) : Persona(i, n), cargaMaxima(c_max) {
     ++contadorInstancias;
 }
