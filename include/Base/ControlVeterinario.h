@@ -7,26 +7,26 @@
 
 class ControlVeterinario {
 private:
-    static int contadorInstancias; // Contador estático 
+    static int contadorInstancias; // Contador estatico 
     int id;
     std::string fecha;
     Animal* animal;
 
 public:
-    ControlVeterinario(int i, std::string f, Animal* a); // Declaración
-    virtual ~ControlVeterinario(); // Declaración
+    ControlVeterinario(int i, std::string f, Animal* a); // Declaracion
+    virtual ~ControlVeterinario(); // declaron
 
     // Funciones virtuales puras (Clase Abstracta polimorfismo) 
     virtual std::string getTipoControl() const = 0;
     virtual void mostrarDetalles(std::ostream& os) const = 0;
 
-    // Métodos
+    // Metodos
     int getId() const { return id; }
     Animal* getAnimal() const { return animal; }
     std::string getFecha() const { return fecha; }
     static int getContadorInstancias();
 
-    // Sobrecarga de operador << (para impreImpresión) 
+    // Sobrecarga de operador << (para impresion) 
     friend std::ostream& operator<<(std::ostream& os, const ControlVeterinario& c) {
         c.mostrarDetalles(os);
         return os;
