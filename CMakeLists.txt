@@ -1,7 +1,7 @@
 # Versión mínima de CMake necesaria
 cmake_minimum_required(VERSION 3.10)
 
-# 1. Definición del Proyecto (Corrige el error de 'No project() command is present')
+# 1. Definición del Proyecto 
 project(RefugioAnimales CXX)
 
 # 2. Configuración del Estándar C++11 (Corrige los errores de 'C++11 extension')
@@ -9,7 +9,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Rutas donde se buscarán los archivos de cabecera (.h)
-# Asegúrate de que todas las carpetas 'include' estén aquí para resolver los 'file not found'
 include_directories(include
         include/Base
         include/Utilidad
@@ -40,5 +39,5 @@ set(SOURCE_FILES
 # Compila y enlaza el ejecutable con todos los archivos listados
 add_executable(RefugioAnimales ${SOURCE_FILES})
 
-# 4. ENLACE DE LIBRERÍAS EXTERNAS (Añadir ncurses)
+# 4. ENLACE DE LIBRERÍAS EXTERNAS 
 target_link_libraries(RefugioAnimales ncurses)
