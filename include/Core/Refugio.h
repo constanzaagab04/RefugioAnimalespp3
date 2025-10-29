@@ -26,11 +26,11 @@ public:
     void altaControl(ControlVeterinario* c);
 
     // Módulo Cuidadores (CRUD)
-    void altaCuidador(Cuidador* c); // Declaración única
+    void altaCuidador(Cuidador* c); // Declaración unica
     void bajaCuidador(int id);
     void buscarYMostrarCuidador(int id);
 
-    // Módulo Animales (CRUD)
+    // modulo Animales (CRUD)
     void buscarYMostrarAnimal(int id);
     void modificarAnimal(int id);
 
