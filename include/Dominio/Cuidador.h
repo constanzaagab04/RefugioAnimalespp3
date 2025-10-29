@@ -12,7 +12,7 @@ private:
     int cargaMaxima;
 
 public:
-    // CORREGIDO: Constructor de 3 argumentos para Carga Máxima
+    //  Constructor de 3 argumentos para Carga Máxima
     Cuidador(int i, std::string n, int c_max);
     ~Cuidador() override;
 
@@ -25,11 +25,11 @@ public:
     // POLIMORFISMO
     void mostrarDetalles(std::ostream& os) const override;
 
-    // Métodos específicos
+    // Metodos especificos
     void listarAnimalesAsignados(std::ostream& os) const;
     const std::vector<Animal*>& getAnimalesAsignados() const { return animalesAsignados; }
 
-    // Función de utilidad para el CRUD
+    // Funcion de utilidad para el CRUD
     void mostrar() const { std::cout << *this << std::endl; }
 };
 
