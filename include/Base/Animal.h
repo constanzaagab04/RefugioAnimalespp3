@@ -18,9 +18,9 @@ public:
 
     // Funciones virtuales puras (Clase Abstracta)
     virtual std::string getEspecie() const = 0;
-    virtual void mostrarDetalles(std::ostream& os) const = 0; // Método polimórfico clave
+    virtual void mostrarDetalles(std::ostream& os) const = 0; // Metodo polimorfico clave
 
-    // Métodos
+    // Metodos
     int getId() const { return id; }
     std::string getNombre() const { return nombre; }
     int getEdad() const { return edad; }
@@ -28,16 +28,16 @@ public:
     void setAdoptado(bool a) { adoptado = a; }
     static int getContadorInstancias();
 
-    // Sobrecarga de operador $<<$ (Impresión) - Llama a mostrarDetalles
+    // Sobrecarga de operador << (para la impresion) - Llama a mostrarDetalles
     friend std::ostream& operator<<(std::ostream& os, const Animal& a) {
         a.mostrarDetalles(os);
         return os;
     }
 
-    // Sobrecarga de operador $<$ (Ordenamientos: por Edad)
+    // Sobrecarga de operador < (Ordenamientos por Edad)
     bool operator<(const Animal& otro) const;
 
-    // SETTERS (CRUD - Modificación)
+    // SETTERS (CRUD - Modificacion)
     void setNombre(const std::string& nuevoNombre) { nombre = nuevoNombre; }
     void setEdad(int nuevaEdad) { edad = nuevaEdad; }
 };
