@@ -5,9 +5,10 @@
 class Perro : public Animal {
 private: std::string raza;
 public:
-    Perro(int i, std::string n, int e, std::string r); // Declaración
-    std::string getEspecie() const override; // Declaración
-    void mostrarDetalles(std::ostream& os) const override; // Declaración
+// Declaraciones 
+    Perro(int i, std::string n, int e, std::string r); 
+    std::string getEspecie() const override; 
+    void mostrarDetalles(std::ostream& os) const override; 
     // Implementación en Perro.cpp
 };
 #endif // PERRO_H
