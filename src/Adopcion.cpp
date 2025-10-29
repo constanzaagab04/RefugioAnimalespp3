@@ -4,7 +4,7 @@
 #include "Dominio/Adopcion.h"
 #include "Utilidad/Enums.h"
 
-// Inicialización del contador estático [cite: 60]
+// Inicialización del contador estático 
 int Adopcion::contadorInstancias = 0;
 
 Adopcion::Adopcion(int i, Animal* a, double costo) : id(i), animal(a), estado(EstadoAdopcion::INICIADA), costoBase(costo) {
@@ -19,7 +19,7 @@ int Adopcion::getContadorInstancias() {
     return contadorInstancias;
 }
 
-// Sobrecarga de operador $++$ (Avanzar estado) [cite: 56]
+// Sobrecarga de operador ++ (Avanzar estado) 
 Adopcion& Adopcion::operator++() {
     if (estado == EstadoAdopcion::INICIADA) estado = EstadoAdopcion::REVISION;
     else if (estado == EstadoAdopcion::REVISION) estado = EstadoAdopcion::APROBADA;
@@ -30,7 +30,7 @@ Adopcion& Adopcion::operator++() {
     return *this;
 }
 
-// Sobrecarga de operador $--$ (Retroceder estado) [cite: 56]
+// Sobrecarga de operador -- (Retroceder estado) 
 Adopcion& Adopcion::operator--() {
     if (estado == EstadoAdopcion::CONCRETADA) {
         estado = EstadoAdopcion::APROBADA;
@@ -41,13 +41,13 @@ Adopcion& Adopcion::operator--() {
     return *this;
 }
 
-// Sobrecarga de operador $()$ para calcular el monto total [cite: 58]
+// Sobrecarga de operador () para calcular el monto total 
 double Adopcion::operator()() const {
     // 15% de recargo por gestiones
     return costoBase * 1.15;
 }
 
-// Sobrecarga de operador $<<$ (Impresión) [cite: 54]
+// Sobrecarga de operador << (Impresión) 
 std::ostream& operator<<(std::ostream& os, const Adopcion& ad) {
     os << "[ID Adopción: " << ad.id << "] Animal: " << ad.animal->getNombre() << " (ID: " << ad.animal->getId()
        << "). Estado: " << estadoToString(ad.estado) << ". Costo Total: $" << ad() << "."; // Usa operador ()
