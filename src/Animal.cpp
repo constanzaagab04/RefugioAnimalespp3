@@ -1,6 +1,6 @@
 #include "Base/Animal.h"
 
-// Inicialización del contador estático [cite: 60]
+// Inicialización del contador estático 
 int Animal::contadorInstancias = 0;
 
 Animal::Animal(int i, std::string n, int e) : id(i), nombre(n), edad(e), adoptado(false) {
@@ -15,7 +15,7 @@ int Animal::getContadorInstancias() {
     return contadorInstancias;
 }
 
-// Implementación de la sobrecarga de operador < [cite: 55]
+// Implementación de la sobrecarga de operador <
 bool Animal::operator<(const Animal& otro) const {
     return this->edad < otro.edad;
 }
