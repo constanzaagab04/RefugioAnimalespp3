@@ -12,7 +12,7 @@ Refugio::Refugio() {
     repoAnimales.insertar(new Gato(2, "Mishi", 2));
     repoAnimales.insertar(new Perro(3, "Rex", 10, "Pastor Aleman"));
 
-    // CORREGIDO: Instanciación de Cuidador con 3 argumentos (ID, Nombre, Carga Máxima)
+    //con 3 argumentos (ID, Nombre, Carga Máxima)
     repoCuidadores.insertar(new Cuidador(101, "Ana Lopez", 5));
     repoCuidadores.insertar(new Cuidador(102, "Juan Perez", 5));
 
@@ -63,7 +63,7 @@ void Refugio::avanzarEstadoAdopcion(int idAdopcion) {
     Adopcion* ad = repoAdopciones.buscarPorID(idAdopcion);
     if (ad) {
         ++(*ad);
-        // CRÍTICO: Usar el operador << sobrecargado para Adopcion
+        // Usar el operador << sobrecargado para Adopcion
         std::cout << "Estado avanzado. Nuevo estado: " << *ad << std::endl;
     } else { std::cout << "Adopción ID " << idAdopcion << " no encontrada." << std::endl; }
 }
@@ -72,7 +72,7 @@ void Refugio::retrocederEstadoAdopcion(int idAdopcion) {
     Adopcion* ad = repoAdopciones.buscarPorID(idAdopcion);
     if (ad) {
         --(*ad);
-        // CRÍTICO: Usar el operador << sobrecargado para Adopcion
+        // Usar el operador << sobrecargado para Adopcion
         std::cout << "Estado retrocedido. Nuevo estado: " << *ad << std::endl;
     } else { std::cout << "Adopción ID " << idAdopcion << " no encontrada." << std::endl; }
 }
