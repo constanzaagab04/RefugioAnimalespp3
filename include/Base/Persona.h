@@ -18,7 +18,7 @@ public:
 
     virtual void mostrarDetalles(std::ostream& os) const = 0; // Pura (clase abstracta)
 
-    // Sobrecarga de operador $<<$ (Impresión) - Llama a mostrarDetalles
+    // Sobrecarga de operador << (impresion) - Llama a mostrarDetalles
     friend std::ostream& operator<<(std::ostream& os, const Persona& p) {
         p.mostrarDetalles(os);
         return os;
