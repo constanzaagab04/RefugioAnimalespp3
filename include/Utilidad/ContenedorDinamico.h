@@ -43,12 +43,12 @@ public:
         return nullptr;
     }
 
-    // Eliminación física (Baja física)
+    // Eliminación física (Baja fisica)
     void eliminarFisico(int idBuscado) {
         bool encontrado = false;
         for (int i = 0; i < cantidad; ++i) {
             if (elementos[i]->getId() == idBuscado) {
-                delete elementos[i]; // **CRÍTICO: LIBERA EL OBJETO**
+                delete elementos[i]; // LIBERO EL OBJETO!!!!!
                 encontrado = true;
                 // Mueve los elementos restantes hacia adelante
                 for (int j = i; j < cantidad - 1; ++j) {
@@ -61,7 +61,7 @@ public:
         if (!encontrado) throw std::runtime_error("ID no encontrado para eliminación.");
     }
 
-    // Ordenamiento manual (usa función lambda para el criterio)
+    // Ordenamiento manual (usa funciones lambda para el criterio)
     void ordenar(std::function<int(const T&, const T&)> comparador) {
         // Bubble Sort
         for (int i = 0; i < cantidad - 1; ++i) {
@@ -111,8 +111,8 @@ public:
 
     // DEFINICIÓN: Resuelve la versión no-const de buscarPorID(), llamando a la versión const
     T* buscarPorID(int id) {
-        // Llama a la versión const y luego elimina la constancia del puntero devuelto.
-        // Esto es necesario para que el código que modifica el objeto encontrado pueda compilar.
+        // Llamo a la versión const y luego elimino la constancia del puntero devuelto
+        // Esto es necesario para que el codigo que modifica el objeto encontrado pueda compilar
         return const_cast<T*>(static_cast<const ContenedorDinamico<T>*>(this)->buscarPorID(id));
     }
 };
