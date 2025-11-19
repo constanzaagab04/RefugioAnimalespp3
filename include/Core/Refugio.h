@@ -1,12 +1,12 @@
 #ifndef REFUGIO_H
 #define REFUGIO_H
 
-#include "Utilidad/ContenedorDinamico.h"
-#include "Base/Animal.h"
-#include "Dominio/Cuidador.h"
-#include "Dominio/Adopcion.h"
-#include "Base/ControlVeterinario.h"
-#include "Utilidad/Enums.h"
+#include "ContenedorDinamico.h"
+#include "Animal.h"
+#include "Cuidador.h"
+#include "Adopcion.h"
+#include "ControlVeterinario.h"
+#include "Enum.h"
 #include <iostream>
 #include <string>
 
@@ -26,7 +26,7 @@ public:
     void altaControl(ControlVeterinario* c);
 
     // Módulo Cuidadores (CRUD)
-    void altaCuidador(Cuidador* c); // Declaración unica
+    void altaCuidador(Cuidador* c);
     void bajaCuidador(int id);
     void buscarYMostrarCuidador(int id);
 
@@ -39,6 +39,9 @@ public:
     void avanzarEstadoAdopcion(int idAdopcion);
     void retrocederEstadoAdopcion(int idAdopcion);
     void ordenarAnimalesPorEdad();
+
+    // NUEVO MÉTODO PARA CREAR ADOPCIONES
+    void crearAdopcion(int idAdopcion, int idAnimal, double costo);
 
     // Reportes
     void mostrarEstadisticas() const;
@@ -59,4 +62,5 @@ public:
         }
     }
 };
+
 #endif // REFUGIO_H
