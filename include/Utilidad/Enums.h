@@ -1,11 +1,11 @@
-#ifndef ENUMS_H
-#define ENUMS_H
+#ifndef ENUM_H
+#define ENUM_H
 
 #include <string>
 
 enum class EstadoAdopcion { INICIADA, REVISION, APROBADA, CONCRETADA, CANCELADA };
 
-// Función de utilidad para convertir el enum a string (se deja inline por simplicidad)
+// Función de utilidad para convertir el enum a string
 inline std::string estadoToString(EstadoAdopcion e) {
     switch (e) {
         case EstadoAdopcion::INICIADA: return "INICIADA";
@@ -17,4 +17,4 @@ inline std::string estadoToString(EstadoAdopcion e) {
     }
 }
 
-#endif // ENUMS_H
+#endif // ENUM_H
