@@ -466,35 +466,199 @@ void ejecutarMenu() {
                 break;
             }
             case 4: { // ADOPCIONES
-                int op;
-                op = run_menu(menuAdopciones, "--- GESTIÓN DE ADOPCIONES ---");
-                show_message_box("Seleccionaste: " + menuAdopciones[op - 1] + ".");
+    int op;
+    do {
+        op = run_menu(menuAdopciones, "--- GESTIÓN DE ADOPCIONES ---");
+        show_message_box("Seleccionaste: " + menuAdopciones[op - 1] + ".");
 
-                if (op == 1) { // Listar todos
-                    sistemaRefugio.listarGenerico(sistemaRefugio.repoAdopciones, "ADOPCIONES");
-                    pausarYLimpiar();
-                }
-                else if (op == 2) { // Avanzar/Retroceder Estado
-                    int idAdop; char accion;
-                    cout << "--- SEGUIMIENTO DE TRAMITE ---" << endl;
-                    cout << "ID Adopcion: ";
-                    if (!(cin >> idAdop)) {
-                        cin.clear();
-                        limpiarBuffer();
-                        pausarYLimpiar();
-                        break;
-                    }
-                    limpiarBuffer();
-
-                    cout << "Avanzar (A) o Retroceder (R) estado?: "; cin >> accion; limpiarBuffer();
-                    if (tolower(accion) == 'a') sistemaRefugio.avanzarEstadoAdopcion(idAdop);
-                    else if (tolower(accion) == 'r') sistemaRefugio.retrocederEstadoAdopcion(idAdop);
-                    else cout << "Accion no reconocida." << endl;
-
-                    pausarYLimpiar();
-                }
+        if (op == 1) { // Listar todos
+            sistemaRefugio.listarGenerico(sistemaRefugio.repoAdopciones, "ADOPCIONES");
+            pausarYLimpiar();
+        }
+        else if (op == 2) { // Crear nueva adopción
+            int idAdopcion, idAnimal;
+            double costo;
+            string tipoAnimal;
+            
+            cout << "--- CREAR NUEVA ADOPCIÓN ---" << endl;
+            
+            // ID Adopción
+            cout << "ID de la adopción (único): ";
+            if (!(cin >> idAdopcion)) {
+                cout << "❌ ID inválido." << endl;
+                cin.clear();
+                limpiarBuffer();
+                pausarYLimpiar();
                 break;
             }
+            
+            if (idExisteEnAdopciones(sistemaRefugio, idAdopcion)) {
+                cout << "❌ ERROR: El ID de adopción " << idAdopcion << " ya existe." << endl;
+                limpiarBuffer();
+                pausarYLimpiar();
+                break;
+            }
+            
+            limpiarBuffer();
+            
+            // Mostrar animales disponibles para adopción
+            cout << "\n--- ANIMALES DISPONIBLES PARA ADOPCIÓN ---" << endl;
+            bool hayAnimalesDisponibles = false;
+            for (const auto& animal : sistemaRefugio.repoAnimales) {
+                if (!animal->estaAdoptado()) {
+                    cout << "ID: " << animal->getId() 
+                         << " | Nombre: " << animal->getNombre() 
+                         << " | Tipo: " << animal->getEspecie() 
+                         << " | Edad: " << animal->getEdad() << " años" << endl;
+                    hayAnimalesDisponibles = true;
+                }
+            }
+            
+            if (!hayAnimalesDisponibles) {
+                cout << "❌ No hay animales disponibles para adopción." << endl;
+                pausarYLimpiar();
+                break;
+            }
+            
+            cout << "\n----------------------------------------" << endl;
+            
+            // ID Animal
+            cout << "ID del Animal a adoptar: ";
+            if (!(cin >> idAnimal)) {
+                cin.clear();
+                limpiarBuffer();
+                cout << "❌ ID inválido." << endl;
+                pausarYLimpiar();
+                break;
+            }
+            limpiarBuffer();
+            
+            // Verificar que el animal existe y no está adoptado
+            Animal* animalSeleccionado = sistemaRefugio.repoAnimales.buscarPorID(idAnimal);
+            if (!animalSeleccionado) {
+                cout << "❌ ERROR: No existe un animal con ID " << idAnimal << endl;
+                pausarYLimpiar();
+                break;
+            }
+            
+            if (animalSeleccionado->estaAdoptado()) {
+                cout << "❌ ERROR: El animal " << animalSeleccionado->getNombre() 
+                     << " ya está adoptado." << endl;
+                pausarYLimpiar();
+                break;
+            }
+            
+            // Mostrar información del animal seleccionado
+            cout << "\n--- INFORMACIÓN DEL ANIMAL SELECCIONADO ---" << endl;
+            cout << "✅ Nombre: " << animalSeleccionado->getNombre() << endl;
+            cout << "✅ Tipo de animal: " << animalSeleccionado->getEspecie() << endl;
+            cout << "✅ Edad: " << animalSeleccionado->getEdad() << " años" << endl;
+            cout << "✅ ID: " << animalSeleccionado->getId() << endl;
+            
+            // Costo
+            cout << "\n💵 Costo base de la adopción: $";
+            if (!(cin >> costo) || costo < 0) {
+                cin.clear();
+                limpiarBuffer();
+                cout << "❌ Costo inválido." << endl;
+                pausarYLimpiar();
+                break;
+            }
+            limpiarBuffer();
+            
+            // Confirmación final
+            cout << "\n--- RESUMEN DE LA ADOPCIÓN ---" << endl;
+            cout << "📋 ID Adopción: " << idAdopcion << endl;
+            cout << "🐾 Animal: " << animalSeleccionado->getNombre() << " (" << animalSeleccionado->getEspecie() << ")" << endl;
+            cout << "🔢 ID Animal: " << idAnimal << endl;
+            cout << "💰 Costo base: $" << costo << endl;
+            cout << "💳 Costo total (con 15% de gestión): $" << (costo * 1.15) << endl;
+            
+            char confirmar;
+            cout << "\n¿Confirmar la adopción? (S/N): ";
+            cin >> confirmar;
+            limpiarBuffer();
+            
+            if (tolower(confirmar) == 's' || tolower(confirmar) == 'y') {
+                try {
+                    sistemaRefugio.crearAdopcion(idAdopcion, idAnimal, costo);
+                    cout << "✅ Adopción registrada exitosamente!" << endl;
+                    cout << "📊 Estado inicial: " << estadoToString(EstadoAdopcion::INICIADA) << endl;
+                } catch (const std::runtime_error& e) {
+                    cout << "❌ Error: " << e.what() << endl;
+                }
+            } else {
+                cout << "❌ Adopción cancelada." << endl;
+            }
+            
+            pausarYLimpiar();
+        }
+        else if (op == 3) { // Avanzar Estado
+            int idAdopcion;
+            cout << "--- AVANZAR ESTADO DE ADOPCIÓN ---" << endl;
+            
+            // Mostrar adopciones existentes
+            cout << "\n--- ADOPCIONES REGISTRADAS ---" << endl;
+            if (sistemaRefugio.repoAdopciones.getCantidad() == 0) {
+                cout << "No hay adopciones registradas." << endl;
+                pausarYLimpiar();
+                break;
+            }
+            
+            for (const auto& adopcion : sistemaRefugio.repoAdopciones) {
+                cout << "ID: " << adopcion->getId() 
+                     << " | Animal: " << adopcion->getAnimal()->getNombre()
+                     << " | Estado: " << estadoToString(adopcion->getEstado()) << endl;
+            }
+            
+            cout << "\nID Adopción a avanzar: ";
+            if (!(cin >> idAdopcion)) {
+                cin.clear();
+                limpiarBuffer();
+                cout << "❌ ID inválido." << endl;
+                pausarYLimpiar();
+                break;
+            }
+            limpiarBuffer();
+            
+            sistemaRefugio.avanzarEstadoAdopcion(idAdopcion);
+            pausarYLimpiar();
+        }
+        else if (op == 4) { // Retroceder Estado
+            int idAdopcion;
+            cout << "--- RETROCEDER ESTADO DE ADOPCIÓN ---" << endl;
+            
+            // Mostrar adopciones existentes
+            cout << "\n--- ADOPCIONES REGISTRADAS ---" << endl;
+            if (sistemaRefugio.repoAdopciones.getCantidad() == 0) {
+                cout << "No hay adopciones registradas." << endl;
+                pausarYLimpiar();
+                break;
+            }
+            
+            for (const auto& adopcion : sistemaRefugio.repoAdopciones) {
+                cout << "ID: " << adopcion->getId() 
+                     << " | Animal: " << adopcion->getAnimal()->getNombre()
+                     << " | Estado: " << estadoToString(adopcion->getEstado()) << endl;
+            }
+            
+            cout << "\nID Adopción a retroceder: ";
+            if (!(cin >> idAdopcion)) {
+                cin.clear();
+                limpiarBuffer();
+                cout << "❌ ID inválido." << endl;
+                pausarYLimpiar();
+                break;
+            }
+            limpiarBuffer();
+            
+            sistemaRefugio.retrocederEstadoAdopcion(idAdopcion);
+            pausarYLimpiar();
+        }
+        
+    } while (op != 5);
+    break;
+}
             case 5: { // REPORTES Y FILTRADO
                 int op;
                 op = run_menu(menuReportes, "--- REPORTES Y FILTRADO ---");
